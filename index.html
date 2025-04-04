@@ -9,6 +9,16 @@
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
+  <div id="app">
+    <div class="cart"></div>
+
+  </div>
+
+
+
+
+
+
     <div id="app">
       <div class="product-display">
         <div class="product-container">
@@ -16,8 +26,11 @@
             <img src='./assets/images/t-shirt-blue.png' alt=”img-product”>
           </div>
           <div class="product-info">
-            <h1>T-Shirt</h1>
-            <p>In Stock</p>
+            <h1>{{product_title}}</h1>
+            <p v-if="isStock > 10 && isStock < 999">In Stock</p>
+            <p v-else-if="isStock <= 10 && isStock >= 1 ">Quaseacabando</p>
+            <p v-else-if="isStock > 1000">brr brr batapim</p>
+            <p v-else> Mundial do palmeiras</p>
           </div>
           
         </div>
@@ -29,9 +42,10 @@
 
       createApp({
         setup() {
-          const message = ref("Hello vue!");
           return {
-            message,
+            product_title: ref('T-shirt'),
+            image: ref ("assets/images/t-shirt-blue.png"),
+            isStock: ref(10000)
           };
         },
       }).mount("#app");
