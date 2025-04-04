@@ -3,53 +3,64 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- VUE CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Curso vue3</title>
     <link rel="stylesheet" href="assets/styles.css" />
   </head>
   <body>
-  <div id="app">
-    <div class="cart"></div>
-
-  </div>
-
-
-
-
-
-
     <div id="app">
+      <div class="cart">Cart: {{ cart }}</div>
       <div class="product-display">
         <div class="product-container">
           <div class="product-image">
-            <img src='./assets/images/t-shirt-blue.png' alt=”img-product”>
+            <img src='./assets/images/t-shirt-blue.png' alt="img-product">
           </div>
           <div class="product-info">
-            <h1>{{product_title}}</h1>
-            <p v-if="isStock > 10 && isStock < 999">In Stock</p>
-            <p v-else-if="isStock <= 10 && isStock >= 1 ">Quaseacabando</p>
-            <p v-else-if="isStock > 1000">brr brr batapim</p>
-            <p v-else> Mundial do palmeiras</p>
+            <h1>{{ product_title }}</h1>
+            <p v-if="isStock > 10">In Stock</p>
+            <p v-else-if="isStock <= 10 && isStock >= 1">Almost out of stock</p>
+            <p v-else>Out of stock</p>
+            <ul>
+              <li v-for="detail in details">
+                {{ detail }}
+              </li>
+            </ul>
+            <div v-for="variant in variants" :key="variant.id" @mouseover="changeImage(variant.image)">
+              {{ variant.color }}
+            </div>
+            <button class="button" v-on:click="addToCart">Add to Cart</button>
           </div>
-          
         </div>
       </div>
     </div>
-
     <script>
       const { createApp, ref } = Vue;
 
       createApp({
         setup() {
+          const cart = ref(0);
+          const addToCart = () => {
+            cart.value += 1
+          };
+          const image = ref("assets/images/t-shirt-blue.png");
+          const changeImage = (variantImage) => {
+            image.value = variantImage
+          };
           return {
             product_title: ref('T-shirt'),
-            image: ref ("assets/images/t-shirt-blue.png"),
-            isStock: ref(10000)
+            image,
+            image: ref("assets/images/t-shirt-blue.png"),
+            isStock: ref(10),
+            details: ['50% cotton', '30% polyester', '20% wool'],
+            variants:
+              [{id:1, color:'blue', image:'assets/images/t-shirt-blue.png'},
+              {id:2, color:'green', image:'assets/images/t-shirt-green.png'},],
+            cart: ref(0),
+            addToCart,
+            changeImage,
           };
         },
       }).mount("#app");
     </script>
   </body>
 </html>
-/home/pedro.malaquias/Documentos/vue3_curso/assets/images/t-shirt-blue.png
